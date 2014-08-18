@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.30110.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LittleThingsApi", "..\LittleThingsApi\LittleThingsApi.csproj", "{5E943EE7-5AB1-4FF6-A2CB-7D4B887A08D7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AbiokaLittleThingsApi", "api\AbiokaLittleThingsApi\AbiokaLittleThingsApi.csproj", "{2F185F09-DDBD-4B42-8071-1736246197AE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +11,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{5E943EE7-5AB1-4FF6-A2CB-7D4B887A08D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5E943EE7-5AB1-4FF6-A2CB-7D4B887A08D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5E943EE7-5AB1-4FF6-A2CB-7D4B887A08D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5E943EE7-5AB1-4FF6-A2CB-7D4B887A08D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F185F09-DDBD-4B42-8071-1736246197AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F185F09-DDBD-4B42-8071-1736246197AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F185F09-DDBD-4B42-8071-1736246197AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F185F09-DDBD-4B42-8071-1736246197AE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
