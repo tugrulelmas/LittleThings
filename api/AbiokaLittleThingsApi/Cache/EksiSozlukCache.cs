@@ -12,24 +12,39 @@ namespace AbiokaLittleThingsApi.Cache
     public class EksiSozlukCache
     {
         private const string url = "https://eksisozluk.com/istatistik/dunun-en-begenilen-entryleri";
+        private const string errorMessage = "Ekşi Sözlük'e erişimde bir takım sıkıntılar mevcut.";
         private static readonly object obj = new object();
 
         private static IEnumerable<Entry> entries;
-        private static bool isNew;
+        private static DateTime lastLoadedDate;
 
         public static IEnumerable<Entry> Entries {
             get {
                 try {
                     lock (obj) {
-                        if (entries == null) {
+                        if (CanLoaded()) {
                             entries = DununEnBegenilenleri();
+                            lastLoadedDate = DateTime.Now;
                         }
                     }
-                } catch (Exception ex) {
-                    Console.WriteLine(ex);
+                } catch (Exception) {
+                    throw;
                 }
                 return entries;
             }
+        }
+
+        private static bool CanLoaded() {
+            if (entries == null || lastLoadedDate == null) return true;
+
+            var now = DateTime.Now.TimeOfDay;
+            //saat 6 ile 9 arasinda ise yarim saatte bir guncelle.
+            if (now.CompareTo(new TimeSpan(6, 0, 0)) > 1 && now.CompareTo(new TimeSpan(9, 0, 0)) < 0
+                && lastLoadedDate.AddMinutes(30).CompareTo(DateTime.Now) < 0) {
+                return true;
+            }
+
+            return false;
         }
 
         public static Entry GetEntry(int sorting) {
@@ -51,6 +66,10 @@ namespace AbiokaLittleThingsApi.Cache
 
         private static string GetResponseData(string url) {
             WebRequest request = WebRequest.Create(url);
+            /*
+            var proxy = new WebProxy("http://10.0.7.224:8080");
+            request.Proxy = proxy;
+            */
             var response = request.GetResponse();
             var dataStream = response.GetResponseStream();
             StreamReader reader = new StreamReader(dataStream);
@@ -67,15 +86,19 @@ namespace AbiokaLittleThingsApi.Cache
             var documentNode = GetHtmlNode(html);
             var node = documentNode.SelectSingleNode("//ol[@id='entry-list']//div[@class='content']");
             var entryDate = documentNode.SelectSingleNode("//ol[@id='entry-list']//span[@class='entry-date']");
+            var entryNumber = documentNode.SelectSingleNode("//ol[@id='entry-list']//li").Attributes.Where(a => a.Name == "value").First().Value;
 
-            entry.Text = node.InnerHtml;
+            if (node == null || entryDate == null) throw new Exception(errorMessage);
+
+            entry.Text = node.InnerHtml.Replace("href=\"/", "target='_blank' href=\"https://eksisozluk.com/");
             entry.EntryDate = entryDate.InnerText;
+            entry.EntryNumber = entryNumber;
         }
 
         private static HtmlNode GetHtmlNode(string html) {
             var document = new HtmlDocument();
             document.LoadHtml(html);
-            if (document.DocumentNode == null) throw new Exception("Ekşi Sözlük'e erişimde bir takım sıkıntılar mevcut.");
+            if (document.DocumentNode == null) throw new Exception(errorMessage);
 
             return document.DocumentNode;
         }
@@ -90,8 +113,8 @@ namespace AbiokaLittleThingsApi.Cache
                 sorting++;
                 var href = nodeItem.Attributes.Where(a => a.Name == "href").First().Value;
                 var url = string.Format("https://eksisozluk.com{0}", href);
-                var title = nodeItem.SelectSingleNode("//span[@class='caption']").InnerText;
-                var autor = nodeItem.SelectSingleNode("//div[@class='detail']").InnerText;
+                var title = nodeItem.SelectSingleNode("span[@class='caption']").InnerText;
+                var autor = nodeItem.SelectSingleNode("div[@class='detail']").InnerText;
 
                 entries.Add(new Entry() {
                     Sorting = sorting,
