@@ -1,0 +1,12 @@
+.scroll-content, .item, .item-complex .item-content, .item-radio .item-content {
+	background-color: #ebebeb !important;
+}
+
+.item, .item-content, .item-content h2, .item p {
+	white-space: normal !important;
+}
+
+a {
+	color: #0027b8;
+	text-decoration: none;	
+}

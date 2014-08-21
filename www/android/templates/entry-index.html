@@ -1,0 +1,16 @@
+<ion-view title="ekşi sözlük">
+  <ion-content>
+    <ion-list>
+	   <div class="item item-divider">
+			dünün en beğenilen entry'leri
+		</div>
+      <ion-item ng-repeat="entry in entries" type="item-text-wrap" href="#/tab/entry/{{entry.Sorting}}">
+		<span class="item-note">
+			{{entry.Sorting}}
+		</span>
+        <h2><a href="#/tab/entry/{{entry.Sorting}}">{{entry.Title}}</a></h2>
+        <p>{{entry.Author}}</p>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>

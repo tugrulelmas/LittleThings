@@ -1,0 +1,21 @@
+<ion-view title="{{entry.Sorting}}">
+  <ion-content detectgestures padding="true">  
+	<div ng-show="loaded" class="list card">
+		<div class="item item-divider">
+			<a href="https://eksisozluk.com/{{entry.Title}}" target="_blank"> {{entry.Title}}</a>
+		</div>
+		<div class="item item-body">
+			<i>{{entry.EntryNumber}}</i>
+			<p dynamic="entry.Text">
+			</p>
+			<p>
+				<a href="{{entry.Url}}" class="subdued" target="_blank"><i class="icon ion-waterdrop"></i> ekşi'de aç</a>
+			</p>
+		</div>
+		<div class="item">
+			<h2><i class="icon ion-person"></i> <a href="https://eksisozluk.com/biri/{{entry.Author}}" target="_blank">{{entry.Author}}</a></h2>
+			<p><i class="icon ion-clock"></i> {{entry.EntryDate}}</p>
+		</div>
+	</div>
+  </ion-content>
+</ion-view>
