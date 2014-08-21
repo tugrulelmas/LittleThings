@@ -23,8 +23,8 @@ namespace AbiokaLittleThingsApi.Cache
                 try {
                     lock (obj) {
                         if (CanLoaded()) {
-                            entries = DununEnBegenilenleri();
                             lastLoadedDate = DateTime.Now;
+                            entries = DununEnBegenilenleri();
                         }
                     }
                 } catch (Exception) {
@@ -87,13 +87,13 @@ namespace AbiokaLittleThingsApi.Cache
             var documentNode = GetHtmlNode(html);
             var node = documentNode.SelectSingleNode("//ol[@id='entry-list']//div[@class='content']");
             var entryDate = documentNode.SelectSingleNode("//ol[@id='entry-list']//span[@class='entry-date']");
-            var entryNumber = documentNode.SelectSingleNode("//ol[@id='entry-list']//li").Attributes.Where(a => a.Name == "value").First().Value;
+            var entryNumberNode = documentNode.SelectSingleNode("//ol[@id='entry-list']//li").Attributes.Where(a => a.Name == "value").FirstOrDefault();
 
-            if (node == null || entryDate == null) throw new Exception(errorMessage);
+            if (node == null || entryDate == null || entryNumberNode == null) throw new Exception(errorMessage);
 
             entry.Text = node.InnerHtml.Replace("href=\"/", "target='_blank' href=\"https://eksisozluk.com/");
             entry.EntryDate = entryDate.InnerText;
-            entry.EntryNumber = entryNumber;
+            entry.EntryNumber = entryNumberNode.Value;
         }
 
         private static HtmlNode GetHtmlNode(string html) {
@@ -111,17 +111,21 @@ namespace AbiokaLittleThingsApi.Cache
             var entries = new List<Entry>();
             var sorting = 0;
             foreach (var nodeItem in nodes) {
+                var hrefNode = nodeItem.Attributes.Where(a => a.Name == "href").First();
+                var titleNode = nodeItem.SelectSingleNode("span[@class='caption']");
+                var authorNode = nodeItem.SelectSingleNode("div[@class='detail']");
+
+                if (hrefNode == null || titleNode == null || authorNode == null) continue;
+                
                 sorting++;
-                var href = nodeItem.Attributes.Where(a => a.Name == "href").First().Value;
-                var url = string.Format("https://eksisozluk.com{0}", href);
-                var title = nodeItem.SelectSingleNode("span[@class='caption']").InnerText;
-                var author = nodeItem.SelectSingleNode("div[@class='detail']").InnerText;
+                var url = string.Format("https://eksisozluk.com{0}", hrefNode.Value);
 
                 entries.Add(new Entry() {
                     Sorting = sorting,
                     Url = url,
-                    Title = title,
-                    Author = author
+                    Title = titleNode.InnerText,
+                    Author = authorNode.InnerText,
+                    LoadedDate = lastLoadedDate
                 });
             }
             return entries;

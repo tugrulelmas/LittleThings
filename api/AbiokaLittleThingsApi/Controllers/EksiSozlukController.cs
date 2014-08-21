@@ -12,16 +12,15 @@ namespace AbiokaLittleThingsApi.Controllers
     public class EksiSozlukController : BaseApiController
     {
         public IEnumerable<Entry> Get() {
-
             var entries = new List<Entry>();
             foreach (var entryItem in EksiSozlukCache.Entries) {
                 var entry = new Entry() {
                     Title = entryItem.Title,
                     Sorting = entryItem.Sorting,
                     Author = entryItem.Author,
-                    Url = entryItem.Url
+                    Url = entryItem.Url,
+                    LoadedDate = entryItem.LoadedDate
                 };
-
                 entries.Add(entry);
             }
             return entries;
