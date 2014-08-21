@@ -66,10 +66,11 @@ namespace AbiokaLittleThingsApi.Cache
 
         private static string GetResponseData(string url) {
             WebRequest request = WebRequest.Create(url);
-            /*
+#if DEBUG
             var proxy = new WebProxy("http://10.0.7.224:8080");
             request.Proxy = proxy;
-            */
+#endif
+
             var response = request.GetResponse();
             var dataStream = response.GetResponseStream();
             StreamReader reader = new StreamReader(dataStream);
@@ -114,13 +115,13 @@ namespace AbiokaLittleThingsApi.Cache
                 var href = nodeItem.Attributes.Where(a => a.Name == "href").First().Value;
                 var url = string.Format("https://eksisozluk.com{0}", href);
                 var title = nodeItem.SelectSingleNode("span[@class='caption']").InnerText;
-                var autor = nodeItem.SelectSingleNode("div[@class='detail']").InnerText;
+                var author = nodeItem.SelectSingleNode("div[@class='detail']").InnerText;
 
                 entries.Add(new Entry() {
                     Sorting = sorting,
                     Url = url,
                     Title = title,
-                    Autor = autor
+                    Author = author
                 });
             }
             return entries;

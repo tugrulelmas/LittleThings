@@ -18,7 +18,7 @@ namespace AbiokaLittleThingsApi.Controllers
                 var entry = new Entry() {
                     Title = entryItem.Title,
                     Sorting = entryItem.Sorting,
-                    Autor = entryItem.Autor,
+                    Author = entryItem.Author,
                     Url = entryItem.Url
                 };
 
