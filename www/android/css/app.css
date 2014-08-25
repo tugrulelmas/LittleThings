@@ -1,8 +1,18 @@
 .scroll-content, .item, .item-complex .item-content, .item-radio .item-content {
 	background-color: #ebebeb !important;
+	-webkit-transform: translateZ(0);
 }
 
-.item, .item-content, .item-content h2, .item p {
+.list{
+	-webkit-transform: translateZ(0);
+	-webkit-overflow-scrolling: touch;
+}
+
+.scroll{
+	-webkit-overflow-scrolling: touch;
+}
+
+.item, .item-content, .item-content h2, .item p, .item h2 {
 	white-space: normal !important;
 }
 

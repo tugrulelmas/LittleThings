@@ -16,7 +16,7 @@
     <link href="css/app.css" rel="stylesheet">
 
     <!-- ionic/angularjs scripts -->
-    <script src="lib/js/ionic.bundle.js"></script>
+    <script src="lib/js/ionic.bundle.min.js"></script>
 
     <script src="cordova.js"></script>
 
@@ -27,7 +27,7 @@
 
   <body ng-app="abioka" animation="no-animation">
 
-	<ion-nav-bar class="bar-dark">
+	<ion-nav-bar class="bar-dark" animation="nav-title-slide-ios7">
 	  <a ng-show="$root.ShowPrevious" class="button" href="#{{$root.PreviousUrl}}"> <i class="icon ion-arrow-left-b"></i> önceki</a>
 	  <ion-nav-buttons side="right">
 		<p><a ng-show="$root.ShowNext" class="button" href="#{{$root.NextUrl}}"> sonraki <i class="icon ion-arrow-right-b"></i></a></p>

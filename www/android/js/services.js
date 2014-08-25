@@ -1,11 +1,11 @@
 angular.module('abioka.services', [])
 
 .factory('EksiSozlukService', function($http, $ionicLoading, $ionicPopup) {
-	var apiUrl = "http://littlethingsapi.abioka.com/api/EksiSozluk";
+	var apiUrl = "http://littlethingsapi.abioka.com/api/EksiSozluk";//"http://10.0.2.2/AbiokaLittleThingsApi/api/EksiSozluk";
 	
 	function showLoading(){
 		$ionicLoading.show({
-		    content: 'yükleniyor...',
+			template: '<i class="icon ion-loading-d"></i>\n<br/>\nyükleniyor...',
 		    animation: 'fade-in',
 		    showBackdrop: false,
 		    maxWidth: 200,
