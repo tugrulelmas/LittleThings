@@ -70,11 +70,12 @@ namespace AbiokaLittleThingsApi.Cache
             var proxy = new WebProxy("http://10.0.7.224:8080");
             request.Proxy = proxy;
 #endif
-
-            var response = request.GetResponse();
-            var dataStream = response.GetResponseStream();
-            StreamReader reader = new StreamReader(dataStream);
-            string responseFromServer = reader.ReadToEnd();
+            var responseFromServer = string.Empty;
+            using (var response = request.GetResponse())
+            using (var dataStream = response.GetResponseStream())
+            using (var reader = new StreamReader(dataStream)) {
+                responseFromServer = reader.ReadToEnd();
+            }
             return responseFromServer;
         }
 
