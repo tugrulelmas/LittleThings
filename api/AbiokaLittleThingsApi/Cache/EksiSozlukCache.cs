@@ -11,7 +11,7 @@ namespace AbiokaLittleThingsApi.Cache
 {
     public class EksiSozlukCache
     {
-        private const string url = "https://eksisozluk.com/istatistik/dunun-en-begenilen-entryleri";
+        private const string url = "https://eksisozluk.com/debe";
         private const string errorMessage = "Ekşi Sözlük'e erişimde bir takım sıkıntılar mevcut.";
         private static readonly object obj = new object();
 
@@ -107,7 +107,9 @@ namespace AbiokaLittleThingsApi.Cache
 
         private static List<Entry> ParseHtml(string html) {
             var documentNode = GetHtmlNode(html);
-            var nodes = documentNode.SelectNodes("//ol[@id='stats']//li//a");
+            var nodes = documentNode.SelectNodes("//ol[@class='stats topic-list']//li//a");
+            if (nodes == null) 
+                throw new Exception(errorMessage);
 
             var entries = new List<Entry>();
             var sorting = 0;
