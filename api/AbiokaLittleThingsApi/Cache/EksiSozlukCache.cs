@@ -37,10 +37,8 @@ namespace AbiokaLittleThingsApi.Cache
         private static bool CanLoaded() {
             if (entries == null || lastLoadedDate == null) return true;
 
-            var now = DateTime.Now.TimeOfDay;
-            //saat 6 ile 9 arasinda ise yarim saatte bir guncelle.
-            if (now.CompareTo(new TimeSpan(6, 0, 0)) > 1 && now.CompareTo(new TimeSpan(9, 0, 0)) < 0
-                && lastLoadedDate.AddMinutes(30).CompareTo(DateTime.Now) < 0) {
+            //yarim saatte bir guncelle.
+            if (lastLoadedDate.AddMinutes(30).CompareTo(DateTime.Now) < 0) {
                 return true;
             }
 
