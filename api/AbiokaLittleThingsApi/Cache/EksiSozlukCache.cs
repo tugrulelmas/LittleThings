@@ -84,15 +84,31 @@ namespace AbiokaLittleThingsApi.Cache
 
         private static void ParseEntryHtml(string html, Entry entry) {
             var documentNode = GetHtmlNode(html);
-            var node = documentNode.SelectSingleNode("//ol[@id='entry-list']//div[@class='content']");
-            var entryDate = documentNode.SelectSingleNode("//ol[@id='entry-list']//span[@class='entry-date']");
-            var entryNumberNode = documentNode.SelectSingleNode("//ol[@id='entry-list']//li").Attributes.Where(a => a.Name == "value").FirstOrDefault();
+            var node = documentNode.SelectSingleNode("//ul[@id='entry-list']//div[@class='content']");
+            var entryDate = documentNode.SelectSingleNode("//ul[@id='entry-list']//span[@class='entry-date']");
+            var entryNumberNode = documentNode.SelectSingleNode("//ul[@id='entry-list']//li");
+            var footerNode = documentNode.SelectSingleNode("//ul[@id='entry-list']//footer");
 
-            if (node == null || entryDate == null || entryNumberNode == null) throw new Exception(errorMessage);
+            var entryNumber = string.Empty;
+            if (entryNumberNode != null) {
+                if (entryNumberNode.Attributes.Any(a => a.Name == "value")) {
+                    entryNumber = entryNumberNode.Attributes.FirstOrDefault(a => a.Name == "value").Value;
+                }
+            }
+
+            var favoriteCount = 0;
+            if (footerNode != null) {
+                if (footerNode.Attributes.Any(a => a.Name == "data-favorite-count")) {
+                    favoriteCount = Convert.ToInt32(footerNode.Attributes.FirstOrDefault(a => a.Name == "data-favorite-count").Value);
+                }
+            }
+
+            if (node == null || entryDate == null) throw new Exception(errorMessage);
 
             entry.Text = node.InnerHtml.Replace("href=\"/", "target='_blank' href=\"https://eksisozluk.com/");
             entry.EntryDate = entryDate.InnerText;
-            entry.EntryNumber = entryNumberNode.Value;
+            entry.EntryNumber = entryNumber;
+            entry.FavoriteCount = favoriteCount;
         }
 
         private static HtmlNode GetHtmlNode(string html) {

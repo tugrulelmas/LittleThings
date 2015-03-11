@@ -22,5 +22,7 @@ namespace AbiokaLittleThingsApi.Entity
         public string EntryNumber { get; set; }
 
         public DateTime LoadedDate { get; set; }
+
+        public int FavoriteCount { get; set; }
     }
 }
