@@ -1,5 +1,16 @@
-<ion-view title="{{entry.Sorting}}">
+<ion-view view-title="{{Title}}">
   <ion-content detectgestures padding="true">  
+	<div ng-show="!loaded" class="list card">
+		<div class="item item-divider">
+			<a href> yükleniyor...</a>
+		</div>
+		<div class="item item-body">
+		</div>
+		<div class="item">
+			<i class="icon ion-person"> ...</i>
+			<p><i class="icon ion-clock"> ...</i> </p>
+		</div>
+	</div>
 	<div ng-show="loaded" class="list card">
 		<div class="item item-divider">
 			<a href="https://eksisozluk.com/{{entry.Title}}" target="_blank"> {{entry.Title}}</a>
@@ -9,7 +20,9 @@
 			<p dynamic="entry.Text">
 			</p>
 			<p>
-				<a href="{{entry.Url}}" class="subdued" target="_blank"><i class="icon ion-waterdrop"></i> ekşi'de aç</a>
+				<a href class="subdued"><i class="icon ion-android-favorite"></i> {{entry.FavoriteCount}} </a> 
+				<a href="{{entry.Url}}" class="subdued" target="_blank"><i class="icon ion-waterdrop"></i> ekşi'de aç</a> 
+				<a href class="subdued" ng-click="socialShare()"><i class="icon ion-android-share-alt"></i> paylaş</a> 
 			</p>
 		</div>
 		<div class="item">

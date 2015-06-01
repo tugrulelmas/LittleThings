@@ -1,23 +1,11 @@
 angular.module('abioka', ['ionic', 'abioka.services', 'abioka.controllers'])
-
-.run(function($rootScope, $location, $ionicViewService){
-	  document.addEventListener('deviceready', onDeviceReady, false);
-	  
-	  function onDeviceReady() {
-		  //document.addEventListener("backbutton", onBackKeyDown, true);
-	  }
-	  
-	  function onBackKeyDown(e) {
-  		  e.preventDefault();
-		  /*
-      	  if($location.path() !== "/tab/entries"){
-      		  $location.path("/tab/entries");
-      		  $rootScope.$apply();
-      	  }
-      	  */
-	  }
+.value('entryRouting', {
+	"ShowPrevious": false,
+	"ShowNext": false,
+	"PreviousUrl": "",
+	"NextUrl": "",
+	"EntryId": 0
 })
-
 .directive('dynamic', function ($compile) {
   return {
     restrict: 'A',
@@ -60,14 +48,18 @@ angular.module('abioka', ['ionic', 'abioka.services', 'abioka.controllers'])
   };
 })
 
-.config(function($stateProvider, $urlRouterProvider) {
+.config(function($stateProvider, $urlRouterProvider, $httpProvider, $ionicConfigProvider) {
+	$httpProvider.defaults.timeout = 5000;
+	$ionicConfigProvider.tabs.position('bottom');
+	$ionicConfigProvider.navBar.alignTitle('center');
+	$ionicConfigProvider.scrolling.jsScrolling(false);
+	
   $stateProvider
     .state('tab', {
       url: '/tab',
       abstract: true,
       templateUrl: 'templates/tabs.html'
     })
-
     .state('tab.entry-index', {
       url: '/entries',
       views: {
@@ -102,5 +94,6 @@ angular.module('abioka', ['ionic', 'abioka.services', 'abioka.controllers'])
     });
 
   $urlRouterProvider.otherwise('/tab/entries');
+  
 });
 

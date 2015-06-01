@@ -10,7 +10,7 @@
     <title>ekşi sözlük dünün en beğenilen entry'leri</title>
 
     <!-- ionic css -->
-    <link href="lib/css/ionic.css" rel="stylesheet">
+    <link href="lib/css/ionic.min.css" rel="stylesheet">
 
     <!-- your app's css -->
     <link href="css/app.css" rel="stylesheet">
@@ -25,16 +25,17 @@
     <script src="js/controllers.js"></script>    
   </head>
 
-  <body ng-app="abioka" animation="no-animation">
-
-	<ion-nav-bar class="bar-dark" animation="nav-title-slide-ios7">
-	  <a ng-show="$root.ShowPrevious" class="button" href="#{{$root.PreviousUrl}}"> <i class="icon ion-arrow-left-b"></i> önceki</a>
-	  <ion-nav-buttons side="right">
-		<p><a ng-show="$root.ShowNext" class="button" href="#{{$root.NextUrl}}"> sonraki <i class="icon ion-arrow-right-b"></i></a></p>
-	  </ion-nav-buttons>
+  <body ng-app="abioka" ng-controller="MainCtrl">
+  
+	<ion-nav-bar class="bar-dark">
+		<ion-nav-buttons side="left">
+			<a ng-show="entryRouting.ShowPrevious" class="button" href="#{{'/tab/entry/' + (entryRouting.EntryId - 1)}}"> <i class="icon ion-arrow-left-b"></i> önceki</a>
+		</ion-nav-buttons>
+		<ion-nav-buttons side="right">
+			<a ng-show="entryRouting.ShowNext" class="button" href="#{{'/tab/entry/' + (entryRouting.EntryId + 1)}}""> sonraki <i class="icon ion-arrow-right-b"></i></a>
+		</ion-nav-buttons>
 	</ion-nav-bar>
-
+	
     <ion-nav-view></ion-nav-view>
-
   </body>
 </html>
