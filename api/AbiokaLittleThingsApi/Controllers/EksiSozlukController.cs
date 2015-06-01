@@ -13,17 +13,9 @@ namespace AbiokaLittleThingsApi.Controllers
     {
         public IEnumerable<Entry> Get() {
             var entries = new List<Entry>();
-            foreach (var entryItem in EksiSozlukCache.Entries) {
-                var entry = new Entry() {
-                    Title = entryItem.Title,
-                    Sorting = entryItem.Sorting,
-                    Author = entryItem.Author,
-                    Url = entryItem.Url,
-                    LoadedDate = entryItem.LoadedDate
-                };
-                entries.Add(entry);
-            }
-            return entries;
+            //load first entry
+            EksiSozlukCache.GetEntry(1);
+            return EksiSozlukCache.Entries;
         }
 
         public Entry Get(int id) {
