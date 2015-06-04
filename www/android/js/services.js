@@ -119,4 +119,22 @@ angular.module('abioka.services', [])
 		}
     }
   }
+})
+
+.factory('PageService', function($ionicHistory, $ionicViewSwitcher, $state, entryRouting) {
+	return{
+		changePage: function(forward)  {
+			$ionicHistory.clearHistory();
+			var entryId = entryRouting.EntryId;
+			if(forward && entryId < 50){
+				$ionicViewSwitcher.nextDirection('forward');
+				entryRouting.EntryId = entryId + 1;
+				$state.go("tab.entry-detail", {entryId: entryId + 1});
+			} else if(!forward && entryId > 1){
+				$ionicViewSwitcher.nextDirection('back');
+				entryRouting.EntryId = entryId - 1;
+				$state.go("tab.entry-detail", {entryId: entryId - 1});
+			}
+		}
+	}
 });

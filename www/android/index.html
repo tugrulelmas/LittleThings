@@ -29,10 +29,10 @@
   
 	<ion-nav-bar class="bar-dark">
 		<ion-nav-buttons side="left">
-			<a ng-show="entryRouting.ShowPrevious" class="button" href="#{{'/tab/entry/' + (entryRouting.EntryId - 1)}}"> <i class="icon ion-arrow-left-b"></i> önceki</a>
+			<a ng-show="entryRouting.ShowPrevious" class="button" href ng-click="changePage(false);"> <i class="icon ion-arrow-left-b"></i> önceki</a>
 		</ion-nav-buttons>
 		<ion-nav-buttons side="right">
-			<a ng-show="entryRouting.ShowNext" class="button" href="#{{'/tab/entry/' + (entryRouting.EntryId + 1)}}""> sonraki <i class="icon ion-arrow-right-b"></i></a>
+			<a ng-show="entryRouting.ShowNext" class="button" href ng-click="changePage(true);"> sonraki <i class="icon ion-arrow-right-b"></i></a>
 		</ion-nav-buttons>
 	</ion-nav-bar>
 	

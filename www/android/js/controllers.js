@@ -1,7 +1,11 @@
 angular.module('abioka.controllers', [])
 
-.controller('MainCtrl', function($scope, entryRouting) {
+.controller('MainCtrl', function($scope, entryRouting, PageService) {
 	$scope.entryRouting = entryRouting;
+	
+    $scope.changePage = function(forward)  {
+		PageService.changePage(forward);
+    };
 })
 
 .controller('EntryIndexCtrl', function($scope, $ionicLoading, EksiSozlukService) {
@@ -11,13 +15,9 @@ angular.module('abioka.controllers', [])
 	});
 })
 
-.controller('EntryDetailCtrl', function($scope, $stateParams, $ionicHistory, $ionicViewSwitcher, $state, EksiSozlukService, entryRouting) {
+.controller('EntryDetailCtrl', function($scope, $stateParams, $ionicPopup, EksiSozlukService, entryRouting, PageService) {	
 	var entryId = parseInt($stateParams.entryId);
-	var previousUrl = "/tab/entry/" + (entryId - 1);
-	var nextUrl = "/tab/entry/" + (entryId + 1);
 	
-	entryRouting.PreviousUrl = previousUrl;
-	entryRouting.NextUrl = nextUrl;
 	entryRouting.ShowPrevious = entryId > 1;
 	entryRouting.ShowNext = entryId < 50;
 	entryRouting.EntryId = entryId;
@@ -37,14 +37,8 @@ angular.module('abioka.controllers', [])
 	});
     
     $scope.reportEvent = function(event)  {
-		$ionicHistory.clearHistory();
-        if(event === "swipeleft" && entryId < 50){
-			$ionicViewSwitcher.nextDirection('forward');
-			$state.go("tab.entry-detail", {entryId: entryId + 1});
-        } else if(event === "swiperight" && entryId > 1){
-			$ionicViewSwitcher.nextDirection('back');
-			$state.go("tab.entry-detail", {entryId: entryId - 1});
-        }
+		var forward = event === "swipeleft";
+		PageService.changePage(forward);
     };
 	
 	
@@ -52,4 +46,19 @@ angular.module('abioka.controllers', [])
     	var message = $scope.entry.Url + "\nvia ekşi debe";
     	window.plugins.socialsharing.share(message);
     };
+	
+	
+	var key = "isEksiDebeOpenedBefore";
+	var isOpenedBefore = localStorage.getItem(key);
+	console.log(isOpenedBefore);
+	if(isOpenedBefore != "true"){
+		console.log("ilk açılış");
+		$ionicPopup.alert({
+			title: '<i class="icon ion-happy-outline"></i> ipucu',
+			template: "sayfayı sağa ve sola kaydırarak entry'ler arasında gezinebilirsin.",
+			okText: 'bakayım'
+		}).then(function(res) {
+			localStorage.setItem(key, 'true');
+		});
+	}
 });

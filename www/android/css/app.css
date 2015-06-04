@@ -20,3 +20,9 @@ a {
 	color: #0027b8;
 	text-decoration: none;	
 }
+
+.url:after
+{
+	font-family: Ionicons;
+	content:" \f39c"
+}
