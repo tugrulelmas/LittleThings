@@ -50,7 +50,6 @@ angular.module('abioka.controllers', [])
 	
 	var key = "isEksiDebeOpenedBefore";
 	var isOpenedBefore = localStorage.getItem(key);
-	console.log(isOpenedBefore);
 	if(isOpenedBefore != "true"){
 		console.log("ilk açılış");
 		$ionicPopup.alert({

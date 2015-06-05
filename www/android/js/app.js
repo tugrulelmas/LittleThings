@@ -77,11 +77,7 @@ angular.module('abioka', ['ionic', 'abioka.services', 'abioka.controllers'])
           templateUrl: 'templates/entry-detail.html',
           controller: 'EntryDetailCtrl'
         }
-      },
-	  onExit: function($rootScope){
-			$rootScope.ShowPrevious = false;
-			$rootScope.ShowNext = false;
-		}
+      }
     })
 
     .state('tab.about', {
@@ -95,5 +91,17 @@ angular.module('abioka', ['ionic', 'abioka.services', 'abioka.controllers'])
 
   $urlRouterProvider.otherwise('/tab/entries');
   
+})
+
+.run(function($rootScope, entryRouting){
+	$rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams){ 
+		if(toState.name === "tab.entry-detail"){
+			entryRouting.ShowPrevious = entryRouting.EntryId > 1;
+			entryRouting.ShowNext = entryRouting.EntryId < 50;
+		} else{
+			entryRouting.ShowPrevious = false;
+			entryRouting.ShowNext = false;
+		}
+    });
 });
 
