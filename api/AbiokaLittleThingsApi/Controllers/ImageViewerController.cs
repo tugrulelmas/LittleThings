@@ -4,6 +4,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
+using System.Linq;
 
 namespace AbiokaLittleThingsApi.Controllers
 {
@@ -13,14 +14,18 @@ namespace AbiokaLittleThingsApi.Controllers
         private readonly static List<string> validHosts;
 
         static ImageWiewerController() {
-            validHosts = new List<string> { "imgur.com", "www.imgur.com", "i.imgur.com",
-            "hizliresim.com", "www.hizliresim.com", "i.hizliresim.com"};
+            validHosts = new List<string> { "imgur.com",
+            "hizliresim.com",
+            "prntscr.com",
+            "twimg.com",
+            "postimg.org",
+            "tinypic.com" };
         }
 
         [Route("")]
         public async Task<HttpResponseMessage> Get([FromUri] string url) {
             var uri = new Uri(url);
-            if (!validHosts.Contains(uri.Host))
+            if (!validHosts.Contains(uri.Host) && !validHosts.Contains(string.Join(".", uri.Host.Split('.').Skip(1))))
                 throw new NotSupportedException($"{uri.Host} is not supported");
 
             HttpClient client;
