@@ -48,16 +48,31 @@ namespace AbiokaLittleThingsApi.Controllers
                 UseProxy = true
             };
             client = new HttpClient(httpClientHandler);
+
 #endif
 #if !DEBUG
             client = new HttpClient();
 #endif
-            var result = await client.GetAsync(url);
+            var request = new HttpRequestMessage(HttpMethod.Get, url);
+            request.Headers.IfModifiedSince = Request.Headers.IfModifiedSince;
+            if (Request.Headers.IfNoneMatch != null) {
+                request.Headers.TryAddWithoutValidation("If-None-Match", Request.Headers.IfNoneMatch.ToString());
+            }
+
+            var result = await client.SendAsync(request);
 
 
-            var response = Request.CreateResponse(HttpStatusCode.OK);
+            var response = Request.CreateResponse();
             response.Content = new StreamContent(await result.Content.ReadAsStreamAsync());
             response.Content.Headers.ContentType = result.Content.Headers.ContentType;
+            response.Content.Headers.ContentLength = result.Content.Headers.ContentLength;
+            response.Content.Headers.Expires = result.Content.Headers.Expires;
+            response.Content.Headers.LastModified = result.Content.Headers.LastModified;
+
+            response.Headers.CacheControl = result.Headers.CacheControl;
+            response.Headers.Age = result.Headers.Age;
+            response.Headers.ETag = result.Headers.ETag;
+            response.StatusCode = result.StatusCode == HttpStatusCode.NotModified ? HttpStatusCode.NotModified : HttpStatusCode.OK;
             return response;
         }
     }
