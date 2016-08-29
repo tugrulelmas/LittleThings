@@ -61,7 +61,6 @@ namespace AbiokaLittleThingsApi.Controllers
 
             var result = await client.SendAsync(request);
 
-
             var response = Request.CreateResponse();
             response.Content = new StreamContent(await result.Content.ReadAsStreamAsync());
             response.Content.Headers.ContentType = result.Content.Headers.ContentType;
