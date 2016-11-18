@@ -71,7 +71,7 @@ namespace AbiokaLittleThingsApi.Controllers
             response.Headers.CacheControl = result.Headers.CacheControl;
             response.Headers.Age = result.Headers.Age;
             response.Headers.ETag = result.Headers.ETag;
-            response.StatusCode = result.StatusCode == HttpStatusCode.NotModified ? HttpStatusCode.NotModified : HttpStatusCode.OK;
+            response.StatusCode = result.StatusCode;
             return response;
         }
     }
