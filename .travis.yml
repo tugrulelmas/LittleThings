@@ -1,0 +1,6 @@
+language: csharp
+solution: LittleThings.sln
+install:
+  - nuget restore LittleThings.sln
+script:
+  - xbuild /p:Configuration=Release LittleThings.sln /p:TargetFrameworkVersion="v4.5"
